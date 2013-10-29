@@ -53,6 +53,8 @@ dotabot uses a few environment variables for configuration so that these sensiti
     export DOTABOT_USERNAME=[email username]
     export DOTABOT_PASSWORD=[email password]
     export DOTABOT_HOSTNAME=[email outgoing smtp server]
+    export DOTABOT_DB_SERVER=[mongodb server]
+    export DOTABOT_DB_NAME=[mongodb database name]
     
 You may find it helpful to add these commands to your bash profile in your home directory so they are automatically executed each time you open a new terminal window.
 

@@ -2,13 +2,19 @@ import os, logging, argparse, calendar#, json
 from dota2py import api
 from datetime import datetime
 from util import print_match_history, get_game_mode_string
+from pymongo import MongoClient
+from time import sleep
 
 DATE_MIN = calendar.timegm(datetime(2013, 10, 1).utctimetuple())
 DATE_MAX = calendar.timegm(datetime(2013, 10, 22).utctimetuple())
 
+client = MongoClient(os.getenv('DOTABOT_DB_SERVER', 'localhost'), 27017)
+db = client[os.getenv('DOTABOT_DB_NAME', 'test')]
+match_collection = db.matches
+
 logging.basicConfig()
 logger = logging.getLogger('dotabot')
-
+    
 def setup():
     '''Setup the API, MongoDB connection, etc.'''
     logger.setLevel(logging.DEBUG)
@@ -46,11 +52,12 @@ def process_match_details(match_id):
 
     print 'Match ID: %s - Game Mode: %s' % (match_id, game_mode)
 
+    match_collection.insert(gmd)
+
     #logging.debug(json.dumps(gmd, sort_keys=True, indent=4))
 
     # TODO:
-    # 1. Insert match into mongodb database
-    # 2. Spawn replay parser thread if there aren't too many already
+    # 1. Spawn replay parser thread if there aren't too many already
 
 def main(start_match_id):
     '''The main entry point of dotabot.'''
@@ -59,6 +66,7 @@ def main(start_match_id):
     while True:
         # Note: GetMatchHistory returns a list of matches in descending order,
         # going back in time.
+        sleep(0.5)
         gmh = api.get_match_history(start_at_match_id=start_match_id,
                                     skill=3,
                                     date_min=DATE_MIN,
@@ -76,6 +84,7 @@ def main(start_match_id):
         print_match_history(gmh)
 
         for match in gmh['matches']:
+            sleep(0.5)
             process_match_details(match['match_id'])
 
         last_match = gmh['matches'][-1]['match_id']
