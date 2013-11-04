@@ -1,23 +1,35 @@
 import os, logging, argparse, calendar#, json
 from dota2py import api
 from datetime import datetime
-from util import print_match_history, get_game_mode_string
+from util import print_match_history, get_game_mode_string, send_email
 from pymongo import MongoClient
 from time import sleep
+import atexit
 
 DATE_MIN = calendar.timegm(datetime(2013, 10, 1).utctimetuple())
 DATE_MAX = calendar.timegm(datetime(2013, 10, 22).utctimetuple())
 
 client = MongoClient(os.getenv('DOTABOT_DB_SERVER', 'localhost'), 27017)
-db = client[os.getenv('DOTABOT_DB_NAME', 'test')]
+db = client[os.getenv('DOTABOT_DB_NAME', 'dotabot')]
 match_collection = db.matches
 
 logging.basicConfig()
 logger = logging.getLogger('dotabot')
+
+last_match_id = -1
+
+@atexit.register
+def save_match_id():
+    '''Save the last match ID processed to a file on exit.'''
+    global last_match_id
+    if last_match_id != -1:
+        open('last_match', 'w').write('%d' % last_match_id)
+        msg = 'Script crashed! Last match id was %d.' % last_match_id
+        send_email(msg, subject='Script crashed!')
     
 def setup():
     '''Setup the API, MongoDB connection, etc.'''
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
 
     API_KEY = os.getenv('DOTABOT_API_KEY')
     if not API_KEY:
@@ -42,6 +54,7 @@ def process_match_details(match_id):
     '''Get the details of the given match_id, check if it's valid, and
     if it is, add it as a record in the database and spawn a thread to
     download and parse the corresponding replay.'''
+    global last_match_id
     gmd = api.get_match_details(match_id)['result']
 
     if not is_valid_match(gmd):
@@ -50,9 +63,11 @@ def process_match_details(match_id):
 
     game_mode = get_game_mode_string(gmd['game_mode'])
 
-    print 'Match ID: %s - Game Mode: %s' % (match_id, game_mode)
+    #print 'Match ID: %s - Game Mode: %s' % (match_id, game_mode)
 
     match_collection.insert(gmd)
+
+    last_match_id = match_id
 
     #logging.debug(json.dumps(gmd, sort_keys=True, indent=4))
 
@@ -61,8 +76,6 @@ def process_match_details(match_id):
 
 def main(start_match_id):
     '''The main entry point of dotabot.'''
-    #TODO remove counter
-    counter = 0
     while True:
         # Note: GetMatchHistory returns a list of matches in descending order,
         # going back in time.
@@ -74,16 +87,24 @@ def main(start_match_id):
                                     game_mode=2,
                                     min_players=10)['result']
         error_code = gmh['status']
+        matches = gmh['matches']
         if error_code is not 1:
-            logger.debug('GetMatchHistory query starting at match_id %s \
-                          returned error code %s. Retrying.'
-                          % (start_match_id, error_code))
-            # TODO send email here
+            msg = 'GetMatchHistory query starting at match_id %s \
+                   returned error code %s. Retrying.' % (start_match_id, error_code)
+            logger.debug(msg)
+            send_email(msg, subject='GMH query failed (script still running)')
             continue
 
-        print_match_history(gmh)
+        if len(matches) is 0:
+            msg = 'GetMatchHistory query starting at match_id %s \
+                   had zero matches inside. Retrying.' % (start_match_id)
+            logger.debug(msg)
+            send_email(msg, subject='GMH query had zero matches, retrying (script still running)')
+            continue
 
-        for match in gmh['matches']:
+        #print_match_history(gmh)
+
+        for match in matches:
             sleep(0.5)
             process_match_details(match['match_id'])
 
@@ -92,18 +113,27 @@ def main(start_match_id):
         # We don't want to record the last match twice, so subtract 1
         start_match_id = last_match - 1
 
-        # TODO remove this to keep going after 2 gmh queries
-        if counter is not 1:
-            counter += 1
-        else:
-            import sys
-            sys.exit(0)
-
-
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description='Bot for collecting DOTA2 data')
     p.add_argument('--match_id', dest='match_id', default=None)
     args = p.parse_args()
 
+    match_id = args.match_id
+
+    try:
+        with open('last_match') as f:
+            saved_id = int(f.readline())
+            ans = False
+            try:
+                ans = raw_input('Start at last_match %d? ' % saved_id)
+                if ans in ['yes', 'y', 'Y', 'YES', 'Yes']:
+                    ans = True
+            except KeyboardInterrupt:
+                ans = False
+            if ans:
+                match_id = saved_id
+    except IOError:
+       pass 
+
     setup()
-    main(args.match_id)
+    main(match_id)
