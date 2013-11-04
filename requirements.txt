@@ -1,3 +1,5 @@
 dota2py==0.1.3
 requests==2.0.1
 pymongo==2.6.3
+bitstring==3.1.2
+protobuf==2.5.0
