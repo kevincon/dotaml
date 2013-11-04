@@ -5,6 +5,7 @@ from util import print_match_history, get_game_mode_string, send_email
 from pymongo import MongoClient
 from time import sleep
 import atexit
+from sys import exit
 
 DATE_MIN = calendar.timegm(datetime(2013, 10, 1).utctimetuple())
 DATE_MAX = calendar.timegm(datetime(2013, 10, 22).utctimetuple())
@@ -79,7 +80,7 @@ def main(start_match_id):
     while True:
         # Note: GetMatchHistory returns a list of matches in descending order,
         # going back in time.
-        sleep(0.5)
+        sleep(1.0)
         gmh = api.get_match_history(start_at_match_id=start_match_id,
                                     skill=3,
                                     date_min=DATE_MIN,
@@ -97,18 +98,18 @@ def main(start_match_id):
 
         if len(matches) is 0:
             msg = 'GetMatchHistory query starting at match_id %s \
-                   had zero matches inside. Retrying.' % (start_match_id)
+                   had zero matches inside.' % (start_match_id)
             logger.debug(msg)
-            send_email(msg, subject='GMH query had zero matches, retrying (script still running)')
-            continue
+            send_email(msg, subject='GMH query had zero matches (forced script to crash)')
+            exit(-1)
 
         #print_match_history(gmh)
 
         for match in matches:
-            sleep(0.5)
+            sleep(1.0)
             process_match_details(match['match_id'])
 
-        last_match = gmh['matches'][-1]['match_id']
+        last_match = matches[-1]['match_id']
         logger.debug('Last match of GMH query: %s' % last_match)
         # We don't want to record the last match twice, so subtract 1
         start_match_id = last_match - 1
@@ -130,7 +131,7 @@ if __name__ == '__main__':
                     ans = True
             except KeyboardInterrupt:
                 ans = False
-            if ans:
+            if ans is True:
                 match_id = saved_id
     except IOError:
        pass 
