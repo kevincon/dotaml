@@ -24,12 +24,11 @@ def send_email(body,
     '''Send an email.'''
     # Credentials
     username = os.getenv('DOTABOT_USERNAME')
-    password = os.getenv('DOTABOT_PASSWORD')
     hostname = os.getenv('DOTABOT_HOSTNAME')
-    if not username or not password:
-        raise NameError('Please set DOTABOT_USERNAME, DOTABOT_PASSWORD, \
+    if not username or not hostname:
+        raise NameError('Please set DOTABOT_USERNAME \
                        and DOTABOT_HOSTNAME environment variables.')
-
+    
     # Message
     msg = MIMEText(body)
     msg['From'] = username
@@ -40,6 +39,5 @@ def send_email(body,
     # Send the email
     server = smtplib.SMTP(hostname)
     server.starttls()
-    server.login(username,password)
     server.sendmail(username, recipients, msg.as_string())
     server.quit()
