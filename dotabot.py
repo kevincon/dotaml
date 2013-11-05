@@ -14,23 +14,26 @@ client = MongoClient(os.getenv('DOTABOT_DB_SERVER', 'localhost'), 27017)
 db = client[os.getenv('DOTABOT_DB_NAME', 'dotabot')]
 match_collection = db.matches
 
-logging.basicConfig()
+logging.basicConfig(level=logging.DEBUG, filename='log.txt')
 logger = logging.getLogger('dotabot')
 
 last_match_id = -1
+date_max = DATE_MAX
 
 @atexit.register
 def save_match_id():
     '''Save the last match ID processed to a file on exit.'''
-    global last_match_id
-    if last_match_id != -1:
+    global last_match_id, date_max
+    if last_match_id != -1 and date_max != -1:
         open('last_match', 'w').write('%d' % last_match_id)
-        msg = 'Script crashed! Last match id was %d.' % last_match_id
+        open('date_max', 'w').write('%d' % date_max)
+
+        msg = 'Script crashed! Last match id was %s. Date_max was %s' % (last_match_id, date_max)
         send_email(msg, subject='Script crashed!')
     
 def setup():
     '''Setup the API, MongoDB connection, etc.'''
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
     API_KEY = os.getenv('DOTABOT_API_KEY')
     if not API_KEY:
@@ -67,6 +70,7 @@ def process_match_details(match_id):
     #print 'Match ID: %s - Game Mode: %s' % (match_id, game_mode)
 
     match_collection.insert(gmd)
+    logger.debug('Processed match_id=%s' % match_id)
 
     last_match_id = match_id
 
@@ -77,42 +81,43 @@ def process_match_details(match_id):
 
 def main(start_match_id):
     '''The main entry point of dotabot.'''
+    global date_max
     while True:
         # Note: GetMatchHistory returns a list of matches in descending order,
         # going back in time.
         sleep(1.0)
+        logger.debug('Doing GMH query for start_at_match_id=%s' % start_match_id)
         gmh = api.get_match_history(start_at_match_id=start_match_id,
                                     skill=3,
                                     date_min=DATE_MIN,
-                                    date_max=DATE_MAX,
+                                    date_max=date_max,
                                     game_mode=2,
                                     min_players=10)['result']
         error_code = gmh['status']
         matches = gmh['matches']
         if error_code is not 1:
-            msg = 'GetMatchHistory query starting at match_id %s \
-                   returned error code %s. Retrying.' % (start_match_id, error_code)
+            msg = 'GetMatchHistory query starting at match_id %s returned error code %s. Retrying.' % (start_match_id, error_code)
             logger.debug(msg)
             send_email(msg, subject='GMH query failed (script still running)')
             continue
 
         if len(matches) is 0:
-            msg = 'GetMatchHistory query starting at match_id %s \
-                   had zero matches inside.' % (start_match_id)
+            msg = 'Zero matches for GMH query with start_at_match_id=%s: \n\n %s' % (start_match_id, gmh)
             logger.debug(msg)
             send_email(msg, subject='GMH query had zero matches (forced script to crash)')
             exit(-1)
-
-        #print_match_history(gmh)
 
         for match in matches:
             sleep(1.0)
             process_match_details(match['match_id'])
 
-        last_match = matches[-1]['match_id']
-        logger.debug('Last match of GMH query: %s' % last_match)
-        # We don't want to record the last match twice, so subtract 1
-        start_match_id = last_match - 1
+        tail_match = matches[-1]
+        date_max = tail_match['start_time']
+        tail_match_id = tail_match['match_id']
+        logger.debug('Match_id of last match of GMH query: %s' % last_match_id)
+        logger.debug('Date of last match of GMH query: %s' % date_max)
+        # We don't want to record the tail match twice, so subtract 1
+        start_match_id = tail_match_id - 1
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description='Bot for collecting DOTA2 data')
@@ -120,6 +125,8 @@ if __name__ == '__main__':
     args = p.parse_args()
 
     match_id = args.match_id
+    if match_id != None:
+        match_id = int(match_id)
 
     try:
         with open('last_match') as f:
@@ -132,9 +139,17 @@ if __name__ == '__main__':
             except KeyboardInterrupt:
                 ans = False
             if ans is True:
-                match_id = saved_id
+                try:
+                    with open('date_max') as d:
+                        date_max = int(d.readline())
+                    match_id = saved_id
+                except IOError:
+                    print 'Could not open date_max file, ignoring last_match value.'
+
     except IOError:
        pass 
+
+    print 'OK, starting at match_id=%s' % match_id
 
     setup()
     main(match_id)
