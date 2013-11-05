@@ -1,4 +1,4 @@
-import os
+import os, time
 from util import send_email
 from pymongo import MongoClient
 
@@ -11,15 +11,24 @@ def main():
     most_recent_match_id = 0
     for post in match_collection.find({}).sort('_id', direction=-1).limit(1):
         most_recent_match_id = post['match_id']
+        most_recent_match_time = post['start_time']
 
-    print most_recent_match_id
-    from sys import exit
-    exit(0)
+    total_matches = match_collection.count()
+    human_readable_time = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.localtime(most_recent_match_time))
 
     msg = '''
-    
-    '''
-    send_email(msg, subject='12-hour update')
+    Hello! 
+
+    The database currently contains %s matches.
+
+    The most recent match_id added to the database was %s.
+
+    The date of that match was %s.
+
+    <3 dotabot
+    ''' % (total_matches, most_recent_match_id, human_readable_time)
+
+    send_email(msg, subject='DOTAbot Update')
      
 if __name__ == '__main__':
     main() 
