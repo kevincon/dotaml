@@ -30,8 +30,3 @@ best_model, score = argmax(models, LogisticRegression.score, X=X[test], y=Y[test
 
 print 'Best model achieved %f accuracy on its test set.' % score
 print 'Best model achieved %f accuracy on entire dataset.' % best_model.score(X, Y)
-
-#with open('model.pkl', 'wb') as model_file:
-#    pickle.dump(model, model_file)
-
-59 + 53
