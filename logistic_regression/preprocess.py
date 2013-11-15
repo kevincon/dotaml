@@ -1,4 +1,4 @@
-import csv, pickle
+import csv
 import numpy as np
 
 np.set_printoptions(threshold=np.nan)
@@ -16,6 +16,8 @@ NUM_FEATURES = NUM_HEROES * 2
 
 # Hero IDs number 1 to 108 but skip 24 and 105, so compensate
 def hero_id_to_index(hero_id):
+    # TODO Instead of doing this, use dota2py api call
+    # to dynamically get latest heroes
     if hero_id >= 24:
         return hero_id - 2
     elif hero_id >= 105:
@@ -65,7 +67,4 @@ with open('test.csv') as csvfile:
 
             X[i, hero_id_index] = 1
 
-    with open('processed.pkl', 'wb') as pickle_file:
-        # Pickle X first, then Y
-        pickle.dump(X, pickle_file)
-        pickle.dump(Y, pickle_file)
+    np.savez_compressed('processed.npz', X=X, Y=Y)
