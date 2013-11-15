@@ -8,6 +8,7 @@ with open('processed.pkl', 'rb') as preprocessed_file:
     Y = pickle.load(preprocessed_file)
 
 NUM_MATCHES = len(X)
+print NUM_MATCHES
 
 k_fold = cross_validation.KFold(n=NUM_MATCHES, n_folds=10, indices=True)
 print max([LogisticRegression().fit(X[train], Y[train]).score(X[test], Y[test]) for train, test in k_fold])

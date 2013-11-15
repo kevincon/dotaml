@@ -7,12 +7,23 @@ np.set_printoptions(threshold=np.nan)
 # row is a different match and each column is a feature
 
 # The features are bit vectors indicating whether heroes
-# were picked (1) or not picked (0). The first 103 features
-# correspond to radiant, and the last 103 features are
+# were picked (1) or not picked (0). The first N features
+# correspond to radiant, and the last N features are
 # for dire.
 
-NUM_HEROES = 103
+NUM_HEROES = 106
 NUM_FEATURES = NUM_HEROES * 2
+
+# Hero IDs number 1 to 108 but skip 24 and 105, so compensate
+def hero_id_to_index(hero_id):
+    if hero_id >= 24:
+        return hero_id - 2
+    elif hero_id >= 105:
+        return hero_id - 3
+    else:
+        # indexed by zero
+        return hero_id - 1
+
 
 # Our training label vector, Y, is a bit vector indicating
 # whether radiant won (1) or lost (0)
@@ -45,7 +56,7 @@ with open('test.csv') as csvfile:
 
             hero_id_field = 'players.%d.hero_id' % player_index
             hero_id = int(record[hero_id_field])
-            hero_id_index = hero_id - 1
+            hero_id_index = hero_id_to_index(hero_id)
 
             # If the left-most bit of player_slot is set,
             # this player is on dire, so push the index accordingly
