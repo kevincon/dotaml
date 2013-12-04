@@ -16,6 +16,9 @@ def main():
     total_matches = match_collection.count()
     human_readable_time = time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.localtime(most_recent_match_time))
 
+    disk_stats = os.statvfs('/')
+    mb_remaining = disk_stats.f_bavail * disk_stats.f_frsize/1024.0/1024.0/1024.0
+
     msg = '''
     Hello! 
 
@@ -25,8 +28,10 @@ def main():
 
     The date of that match was %s.
 
+    There are %.2f remaining GB on the hard drive.
+
     <3 dotabot
-    ''' % (total_matches, most_recent_match_id, human_readable_time)
+    ''' % (total_matches, most_recent_match_id, human_readable_time, mb_remaining)
 
     send_email(msg, subject='DOTAbot Update')
      
