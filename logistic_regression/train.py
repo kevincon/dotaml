@@ -1,9 +1,10 @@
 from sklearn.linear_model import LogisticRegression
+import pickle
 from sklearn import cross_validation
 import numpy as np
 
 # Import the preprocessed X matrix and Y vector
-preprocessed = np.load('processed.npz')
+preprocessed = np.load('preprocessed.npz')
 X = preprocessed['X']
 Y = preprocessed['Y']
 
@@ -24,3 +25,6 @@ ranked = sorted(score_model_pairs)
 score, best_model = ranked[0]
 
 print 'Best model achieved %f accuracy on its test set.' % score
+
+with open('model.pkl', 'w') as output_file:
+    pickle.dump(best_model, output_file)
