@@ -1,0 +1,198 @@
+
+.TextboxList ul.holder
+{
+    margin: 0;
+    border: 1px none transparent;
+    overflow: hidden;
+    height: auto !important;
+    min-height: 4ex;
+    padding: 0;
+    /*font: 11px "Lucida Grande", "Verdana";*/
+    position: relative;
+    display: inline-block;
+}
+
+.TextboxList.Disabled ul.holder
+{
+    margin: 0;
+    border: 0px none transparent;
+}
+
+
+.TextboxList ul.holder li
+{
+    float: left;
+    list-style-type: none;
+    margin: 0px;
+}
+
+.TextboxList ul.holder li.bit-box
+{
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #CAD8F3;
+    background: #DEE7F8;
+    padding: 2px 5px 2px;
+    margin: 2px 4px;
+}
+
+.TextboxList.Disabled ul.holder li.bit-box
+{
+    background: none;
+}
+
+
+
+.TextboxList ul.holder li.bit-input
+{
+    margin: 2px 0px 2px 4px;
+    white-space: nowrap;
+    padding: 0px;
+}
+
+
+.TextboxList ul.holder li.bit-box-focus
+{
+    border-color: #598BEC;
+    background: #598BEC;
+    color: #fff;
+}
+
+.TextboxList ul.holder li.bit-input input
+{
+/*
+    width:10ex;
+    border: 1px solid #999; /* IE7 is royally f'ed up in that boder: none is not good enough.  we also need to give it a border-width and a border-color */
+    /*font: 11px "Lucida Grande", "Verdana";
+    outline: 0;
+    padding: 3px;*/
+
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #CAD8F3;
+    /*background: white;*/
+    padding: 2px 5px 2px;
+    margin: 2px 4px;
+    outline: 0;
+    width:10ex;
+}
+
+
+
+.TextboxList ul.holder li.bit-box + li.bit-input
+{
+    /*margin: 3px 0px 0px 0px;*/
+}
+
+.TextboxList.Disabled ul.holder li.bit-box:hover
+{
+    background: none;
+    border: 1px solid #CAD8F3;
+}
+
+.TextboxList ul.holder li.bit-box:hover
+{
+    background: #BBCEF1;
+    border: 1px solid #6D95E0;
+}
+
+
+.TextboxList ul.holder li.bit-box-focus:hover
+{
+    background: #598BEC;
+    border: 1px solid #6D95E0;
+}
+
+.TextboxList ul.holder li.bit-box-focus
+{
+    border-color: #598BEC;
+    background: #598BEC;
+    color: #fff;
+}
+
+.TextboxList ul.holder li.bit-box a.closebutton
+{
+    position: absolute;
+    right: 4px;
+    top: 6px;
+    display: block;
+    width: 7px;
+    height: 7px;
+    font-size: 1px;
+    background: url(../lib/close.gif);
+}
+
+
+.TextboxList.Disabled ul.holder li.bit-box a.closebutton
+{
+    background: none;
+}
+
+.TextboxList ul.holder li.bit-box a.closebutton:hover
+{
+    background-position: 7px;
+}
+
+.TextboxList ul.holder li.bit-box-focus a.closebutton, .TextboxList ul.holder li.bit-box-focus a.closebutton:hover
+{
+    background-position: bottom;
+}
+
+.TextboxList ul.holder li.bit-box
+{
+    padding-right: 15px;
+    position: relative;
+}
+/* Autocompleter */
+.TextboxListAutoComplete
+{
+    position: absolute;
+    background: #eee;
+    min-width: 30ex;
+}
+
+.TextboxListAutoComplete .ACMessage
+{
+    padding: 5px 7px;
+    border: 1px solid #ccc;
+    border-width: 0 1px 1px;
+}
+
+.TextboxListAutoComplete ul
+{
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+.TextboxListAutoComplete ul li
+{
+    padding: 5px 12px;
+    z-index: 1000;
+    cursor: pointer;
+    margin: 0;
+    list-style-type: none;
+    border: 1px solid #ccc;
+    border-width: 0 1px 1px;
+}
+
+.TextboxListAutoComplete ul li em
+{
+    font-weight: bold;
+    font-style: normal;
+    background: #ccc;
+}
+
+.TextboxListAutoComplete ul li.auto-focus
+{
+    background: #4173CC;
+    color: #fff;
+}
+
+.TextboxListAutoComplete ul li.auto-focus em
+{
+    background: none;
+}
+
