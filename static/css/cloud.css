@@ -1,0 +1,25 @@
+.ProtoCloud
+{
+margin-left: auto;
+margin-right: auto;
+color: #002A8B;
+}
+
+.ProtoCloud ul
+{
+text-align: justify;
+}
+
+.ProtoCloud a:link, .ProtoCloud a:visited
+{
+text-decoration: none;
+vertical-align: baseline;
+line-height: 1em;
+}
+
+.ProtoCloud a:hover
+{
+background-color: #0044EE;
+color: white !important;
+}
+

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <title>Dota2 Recommendation Engine</title>
+        <link rel="stylesheet" href="static/css/textboxlist.css" type="text/css" media="screen" />
+        <link rel="stylesheet" href="static/css/global.css" type="text/css" media="screen"/>
+        <link rel="stylesheet" href="static/css/cloud.css" type="text/css" media="screen" />
+        <script src="static/lib/prototype.js" type="text/javascript" >
+        </script>
+        <script src="static/lib/TextBoxList.js" type="text/javascript" >
+        </script>
+        <script src="static/index.js" type="text/javascript">
+        </script>
+        <script type="text/javascript" src="static/lib/prototype.js">
+        </script>
+        <script type="text/javascript" src="static/lib/S2.js">
+        </script>
+        <script type="text/javascript" src="static/src/ScaleColor.js">
+        </script>
+        <script type="text/javascript" src="static/src/ProtoCloud.js">
+        </script>
+    </head>
+    <body id="test" onload="onDocLoad()">
+    <h1>DOTA2 Recommendation Engine</h1>
+    <div class="content" id="suggest" >
+    <form class="pks" action="test_submit" method="get" accept-charset="utf-8">
+    <p>Our team's heroes / Recommended heroes: </p>
+    <table>
+        <tr>
+        <td>
+        <input type="text" id="ourteampicks" value=""/>
+        <label class="SubmitInfo"> </label>
+        <code class="SubmitCode"> </code>
+        </td>
+        <td>/</td>
+        <td class="osugg">
+        <input type="text" id="ourteamsugg" value=""/>
+        <label class="SubmitInfo"> </label>
+        <code class="SubmitCode"> </code>
+        </td>
+    </table>
+    <p>Opposing team's heroes:</p>
+    <table>
+        <tr>
+        <td>
+        <input type="text" id="theirteampicks" value=""/>
+        <label class="SubmitInfo"> </label>
+        <code class="SubmitCode"> </code>
+        </td>
+        </tr>
+    </table>
+
+    <!-- <p>Bans / Do not suggest for our team:</p>
+    <table>
+        <tr>
+        <td>
+        <input type="text" id="globalbans" value=""/>
+        <label class="SubmitInfo"> </label>
+        <code class="SubmitCode"> </code>
+        </td>
+        <td>/</td>
+        <td class="tsugg">
+        <input type="text" id="ourteambans" value=""/>
+        <label class="SubmitInfo"> </label>
+        <code class="SubmitCode"> </code>
+        </td>
+        </tr>
+    </table> -->
+
+    <p>Chance we win based on picks: &nbsp;&nbsp;<span id="ctw">__%</span></p>
+    </form>
+    </div>
+</body>
+</html>
+

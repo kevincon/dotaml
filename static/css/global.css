@@ -1,0 +1,66 @@
+.PrimaryInfo,
+.SecondaryInfo {
+  width: 100%;
+  display: block;
+}
+
+.PrimaryInfo {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+.SecondaryInfo {
+  font-style: italic;
+  text-indent: 15px;
+}
+
+
+.SubmitInfo,
+.SubmitCode {
+  display: none;
+}
+
+html {margin-left: auto;
+    margin-right: auto;
+    width: 90%
+}
+
+.content#info:target{
+	display:block;
+	}
+
+.content#suggest:target{
+	display:block;
+	}
+
+.content#counters:target{
+	display:block;
+	}
+
+
+#separator{
+border:0;
+background-color:#CAD8F3;
+height:.2em;
+}
+
+
+#ctw {
+    vertical-align:middle;
+    font-size:2em;
+}
+
+#chero {
+font-size:2em;
+width:10em;
+}
+
+
+.infocolumn{
+vertical-align:top;
+width:49%
+}
+
+.infocolumnseparator{
+width:2%;
+}
