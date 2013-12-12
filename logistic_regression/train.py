@@ -1,30 +1,21 @@
 from sklearn.linear_model import LogisticRegression
 import pickle
-from sklearn import cross_validation
 import numpy as np
 
-# Import the preprocessed X matrix and Y vector
-preprocessed = np.load('preprocessed.npz')
-X = preprocessed['X']
-Y = preprocessed['Y']
+def train(X, Y, num_samples):
+    print 'Training using data from %d matches...' % num_samples
+    return LogisticRegression().fit(X[0:num_samples], Y[0:num_samples])
 
-NUM_MATCHES = len(X)
-print 'Training using data from %d matches...' % NUM_MATCHES
+def main():
+    # Import the preprocessed training X matrix and Y vector
+    preprocessed = np.load('train_51022.npz')
+    X_train = preprocessed['X']
+    Y_train = preprocessed['Y']
 
-k_fold = cross_validation.KFold(n=NUM_MATCHES, n_folds=10, indices=True)
+    model = train(X_train, Y_train, len(X_train))
 
-# Find the Logistic Regression model with maximum accuracy on its test set
-score_model_pairs = []
-for train, test in k_fold:
-    model = LogisticRegression().fit(X[train], Y[train])
-    score = model.score(X[test], Y[test])
-    score_model_pairs.append((score, model))
+    with open('model.pkl', 'w') as output_file:
+        pickle.dump(model, output_file)
 
-ranked = sorted(score_model_pairs)
-
-score, best_model = ranked[0]
-
-print 'Best model achieved %f accuracy on its test set.' % score
-
-with open('model.pkl', 'w') as output_file:
-    pickle.dump(best_model, output_file)
+if __name__ == "__main__":
+    main()

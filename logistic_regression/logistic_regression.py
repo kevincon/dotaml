@@ -24,12 +24,21 @@ class D2LogisticRegression:
         prob_candidate_pairs = []
         for candidate, team in team_possibilities:
             query = self.transform(team, their_team)
-            prob = self.model.predict_proba(query)[0][1]
+            prob = self.score(query) #self.model.predict_proba(query)[0][1]
             prob_candidate_pairs.append((prob, candidate))
         prob_candidate_pairs = sorted(prob_candidate_pairs, reverse=True)[0:5 - len(my_team)]
         return prob_candidate_pairs
 
+    def score(self, query):
+        '''Score the query using the model, considering both radiant and dire teams.'''
+        radiant_query = query
+        dire_query = np.concatenate((radiant_query[NUM_HEROES:NUM_FEATURES], radiant_query[0:NUM_HEROES]))
+        rad_prob = self.model.predict_proba(radiant_query)[0][1]
+        dire_prob = self.model.predict_proba(dire_query)[0][0]
+        return (rad_prob + dire_prob) / 2
+
     def predict(self, dream_team, their_team):
         '''Returns the probability of the dream_team winning against their_team.'''
         dream_team_query = self.transform(dream_team, their_team)
-        return self.model.predict_proba(dream_team_query)[0][1]
+        return self.score(dream_team_query)
+        #return self.model.predict_proba(dream_team_query)[0][1]

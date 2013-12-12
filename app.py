@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from engine import Engine
 from k_nearest_neighbors.k_nearest_neighbors import D2KNearestNeighbors, my_distance, poly_weights_recommend, poly_weights_evaluate
-#from logistic_regression.logistic_regression import D2LogisticRegression
+from logistic_regression.logistic_regression import D2LogisticRegression
 import json
 
 app = Flask(__name__)
