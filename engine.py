@@ -1,5 +1,5 @@
 from k_nearest_neighbors.k_nearest_neighbors import D2KNearestNeighbors, my_distance, poly_weights_recommend, poly_weights_evaluate
-#from logistic_regression.logistic_regression import D2LogisticRegression
+from logistic_regression.logistic_regression import D2LogisticRegression
 from dota2py import api
 import os
 
@@ -26,8 +26,8 @@ def main():
     print 'My Team: %s' % [get_hero_human_readable(hero_id) for hero_id in my_team]
     print 'Their Team: %s' % [get_hero_human_readable(hero_id) for hero_id in their_team]
     print 'Recommend:'
-    engine = Engine(D2KNearestNeighbors())
-    #engine = Engine(D2LogisticRegression())
+    #engine = Engine(D2KNearestNeighbors())
+    engine = Engine(D2LogisticRegression())
     recommendations = engine.recommend(my_team, their_team)
     print recommendations
     #print '\n'.join([str(element) for element in recommendations])
