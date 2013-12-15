@@ -4,6 +4,8 @@ from k_nearest_neighbors.k_nearest_neighbors import D2KNearestNeighbors, my_dist
 from logistic_regression.logistic_regression import D2LogisticRegression
 import json
 
+URL_PREFIX = ''
+
 app = Flask(__name__)
 engine = Engine(D2KNearestNeighbors())
 #engine = Engine(D2LogisticRegression())
@@ -16,7 +18,7 @@ def get_api_string(recommendations, prob):
 def index():
     return render_template('index.html')
 
-@app.route("/api/suggest/")
+@app.route(URL_PREFIX + "/api/suggest/")
 def api():
     if 'x' not in request.args or 'y' not in request.args:
         return 'Invalid request'
