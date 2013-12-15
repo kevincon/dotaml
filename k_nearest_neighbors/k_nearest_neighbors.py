@@ -13,10 +13,8 @@ def my_distance(vec1,vec2):
 def poly_weights_recommend(distances):
     '''Returns a list of weights for the provided list of distances.'''
     global NUM_IN_QUERY
-    distances[0] = np.power(np.multiply(distances[0], NUM_IN_QUERY), 15)
+    distances[0] = np.power(np.multiply(distances[0], NUM_IN_QUERY), 4)
     return distances
-    #weights = np.power(np.multiply(distances[0], NUM_IN_QUERY), 15)
-    #return np.array([weights])
 
 def poly_weights_evaluate(distances):
     '''Returns a list of weights for the provided list of distances.'''
