@@ -43,7 +43,7 @@ def plot_learning_curve(num_points, X_train, Y_train, X_test, Y_test, positive_c
     plt.title('Logistic Regression Learning Curve')
     pylab.show()
 
-def plot_error_curves(num_points, X_train, Y_train, X_test, Y_test, positive_class=1, negative_class=0):
+def plot_learning_curves(num_points, X_train, Y_train, X_test, Y_test, positive_class=1, negative_class=0):
     total_num_matches = len(X_train)
     training_set_sizes = []
     for div in list(reversed(range(1, num_points + 1))):
@@ -53,17 +53,17 @@ def plot_error_curves(num_points, X_train, Y_train, X_test, Y_test, positive_cla
     training_errors = []
     for training_set_size in training_set_sizes:
         model = train(X_train, Y_train, training_set_size)
-        test_error = 1- evaluate(model, X_test, Y_test, positive_class, negative_class)
-        training_error = 1-evaluate(model, X_train, Y_train, positive_class, negative_class)
+        test_error = evaluate(model, X_test, Y_test, positive_class, negative_class)
+        training_error = evaluate(model, X_train, Y_train, positive_class, negative_class)
         test_errors.append(test_error)
         training_errors.append(training_error)
 
-    plt.plot(training_set_sizes, training_errors, 'bs-', label='Training error')
-    plt.plot(training_set_sizes, test_errors, 'g^-', label='Test error')
-    plt.ylabel('Error')
+    plt.plot(training_set_sizes, training_errors, 'bs-', label='Training accuracy')
+    plt.plot(training_set_sizes, test_errors, 'g^-', label='Test accuracy')
+    plt.ylabel('Accuracy')
     plt.xlabel('Number of training samples')
-    plt.title('Logistic Regression Error Curves')
-    plt.legend()
+    plt.title('Logistic Regression Learning Curve')
+    plt.legend(loc='lower right')
     pylab.show()
 
 def main():
@@ -76,7 +76,7 @@ def main():
     Y_test = testing_data['Y']
 
     #plot_learning_curve(30, X_train, Y_train, X_test, Y_test)
-    plot_error_curves(100, X_train, Y_train, X_test, Y_test)
+    plot_learning_curves(100, X_train, Y_train, X_test, Y_test)
 
 if __name__ == '__main__':
     main()
