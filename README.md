@@ -11,11 +11,9 @@ Our final report, which includes a full analysis of our project and our results,
 
 A blog post summarizing our project can be found here: TODO
 
-## Live Demo
+## Where's the Live Demo?
 
-A live demo of our recommendation engine can be found here: TODO
-
-(credit to [Dota 2 Counter-Pick](http://dota2cp.com/) for the web interface)
+Unfortunately, given the way we used the scikit-learn k-nearest neighbors model with a custom distance/weight function (see final report above), we are not able to provide a heroku-based live demo. It might be possible to provide a live demo via a Linode/EC2 node, but that would be cost-prohibitive for us at this time.
 
 ## Running locally
 
@@ -31,9 +29,13 @@ Our project requires the [scikit-learn](http://scikit-learn.org/stable/) Python 
 
 We use [VirtualEnv](http://www.virtualenv.org/en/latest/) to help facilitate getting setup on a new machine. There are a number of ways of installing it, depending on your operating system.
 
+#### MongoDB and Database Backup (optional for just running recommendation engine)
+
+The data on Dota 2 matches we collected was stored in a MongoDB database. To extract the data to train new models, you must first [install MongoDB](http://docs.mongodb.org/manual/installation/). Then, [download the backup of our database](https://www.dropbox.com/s/jgflbwyicd56av7/dotabot_db.zip) and [restore it using this tutorial](http://docs.mongodb.org/manual/tutorial/backup-databases-with-binary-database-dumps/).
+
 ### Clone the Repository
 
-    git clone git@github.com:kevincon/dota2project.git
+    git clone git@github.com:kevincon/dotarec.git
 
 ### Initialize VirtualEnv
 
