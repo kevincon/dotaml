@@ -11,11 +11,9 @@ Our final report, which includes a full analysis of our project and our results,
 
 A blog post summarizing our project can be found here: TODO
 
-## Live Demo
+## Where's the Live Demo?
 
-A live demo of our recommendation engine can be found here: TODO
-
-(credit to [Dota 2 Counter-Pick](http://dota2cp.com/) for the web interface)
+Unfortunately, given the way we used the scikit-learn k-nearest neighbors model with a custom distance/weight function (see final report above), we are not able to provide a heroku-based live demo. It might be possible to provide a live demo via a Linode/EC2 node, but that would be cost-prohibitive for us at this time.
 
 ## Running locally
 
