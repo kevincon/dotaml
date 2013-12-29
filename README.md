@@ -31,9 +31,13 @@ Our project requires the [scikit-learn](http://scikit-learn.org/stable/) Python 
 
 We use [VirtualEnv](http://www.virtualenv.org/en/latest/) to help facilitate getting setup on a new machine. There are a number of ways of installing it, depending on your operating system.
 
+#### MongoDB and Database Backup (optional for just running recommendation engine)
+
+The data on Dota 2 matches we collected was stored in a MongoDB database. To extract the data to train new models, you must first [install MongoDB](http://docs.mongodb.org/manual/installation/). Then, [download the backup of our database](https://www.dropbox.com/s/jgflbwyicd56av7/dotabot_db.zip) and [restore it using this tutorial](http://docs.mongodb.org/manual/tutorial/backup-databases-with-binary-database-dumps/).
+
 ### Clone the Repository
 
-    git clone git@github.com:kevincon/dota2project.git
+    git clone git@github.com:kevincon/dotarec.git
 
 ### Initialize VirtualEnv
 
