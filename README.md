@@ -17,17 +17,19 @@ Unfortunately, given the way we used the scikit-learn k-nearest neighbors model 
 
 ## Running locally
 
-To download our project and run the code locally, follow the following procedure:
+Everything has been tested to work on Mac OSX 10.8. To download our project and run the code locally, follow the following procedure:
 
 ### Dependencies
-
-#### Scikit-learn
-
-Our project requires the [scikit-learn](http://scikit-learn.org/stable/) Python machine learning library to be installed, which itself has a few dependencies. If you are running Mac OSX, we recommend following [these instructions to install scikit-learn](http://shanshanchen.com/2013/05/29/install-numpy-scipy-scikit-learn-on-mac-os-x-for-data-miners/).
 
 #### VirtualEnv
 
 We use [VirtualEnv](http://www.virtualenv.org/en/latest/) to help facilitate getting setup on a new machine. There are a number of ways of installing it, depending on your operating system.
+
+#### GFortran (required for installing scipy)
+
+[GFortran](http://gcc.gnu.org/wiki/GFortranBinaries) is required to install scipy. If you're running Mac OSX, we recommend using [Homebrew](http://brew.sh/) to install GFortran:
+
+    brew install gfortran
 
 #### MongoDB and Database Backup (optional for just running recommendation engine)
 
