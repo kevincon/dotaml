@@ -8,6 +8,7 @@ git-remote-helpers==0.1.0
 itsdangerous==0.23
 mimms==3.2
 numpy==1.8.0
+progressbar==2.3
 pymongo==2.6.3
 python-tesseract==tesseract
 requests==2.1.0
