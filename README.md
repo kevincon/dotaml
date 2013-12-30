@@ -35,7 +35,7 @@ We use [VirtualEnv](http://www.virtualenv.org/en/latest/) to help facilitate get
 
 The data on Dota 2 matches we collected was stored in a MongoDB database. To extract the data to train new models, you must first [install MongoDB](http://docs.mongodb.org/manual/installation/). Then, [download the backup of our database](https://www.dropbox.com/s/jgflbwyicd56av7/dotabot_db.zip) and [restore it using this tutorial](http://docs.mongodb.org/manual/tutorial/backup-databases-with-binary-database-dumps/).
 
-Also, our data collection script, dotabot, uses a few environment variables for configuration so that these sensitive variables are not stored in the public repository. Therefore, you must initialize the following environment variables:
+Also, our data collection script, [dotabot2](data_collection/dotabot2.py), uses a few environment variables for configuration so that these sensitive variables are not stored in the public repository. Therefore, you must initialize the following environment variables:
 
     export DOTABOT_API_KEY=[steam web api key]
     export DOTABOT_USERNAME=[email username]
@@ -43,6 +43,8 @@ Also, our data collection script, dotabot, uses a few environment variables for 
     export DOTABOT_HOSTNAME=[email outgoing smtp server]
     export DOTABOT_DB_SERVER=[mongodb server]
     export DOTABOT_DB_NAME=[mongodb database name]
+
+You may find it helpful to add these commands to your bash profile in your home directory so they are automatically executed each time you open a new terminal window.
 
 ### Clone the Repository
 
