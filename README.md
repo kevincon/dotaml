@@ -1,4 +1,4 @@
-# DotaRec
+# DotaML
 
 A DOTA 2 hero recommendation engine for Stanford's CS 229 Machine Learning course.
 
@@ -23,17 +23,26 @@ Everything has been tested to work on Mac OSX 10.8. To download our project and 
 
 #### VirtualEnv
 
-We use [VirtualEnv](http://www.virtualenv.org/en/latest/) to help facilitate getting setup on a new machine. There are a number of ways of installing it, depending on your operating system.
+We use [VirtualEnv](http://www.virtualenv.org/en/latest/) to help facilitate getting setup on a new machine. There are [a number of ways of installing it](http://www.virtualenv.org/en/latest/virtualenv.html#installation), depending on your operating system.
 
-#### GFortran (required for installing scipy)
+#### GFortran
 
 [GFortran](http://gcc.gnu.org/wiki/GFortranBinaries) is required to install scipy. If you're running Mac OSX, we recommend using [Homebrew](http://brew.sh/) to install GFortran:
 
     brew install gfortran
 
-#### MongoDB and Database Backup (optional for just running recommendation engine)
+#### MongoDB, Database Backup, and Environment Variables (optional for just running recommendation engine)
 
 The data on Dota 2 matches we collected was stored in a MongoDB database. To extract the data to train new models, you must first [install MongoDB](http://docs.mongodb.org/manual/installation/). Then, [download the backup of our database](https://www.dropbox.com/s/jgflbwyicd56av7/dotabot_db.zip) and [restore it using this tutorial](http://docs.mongodb.org/manual/tutorial/backup-databases-with-binary-database-dumps/).
+
+Also, our data collection script, dotabot, uses a few environment variables for configuration so that these sensitive variables are not stored in the public repository. Therefore, you must initialize the following environment variables:
+
+    export DOTABOT_API_KEY=[steam web api key]
+    export DOTABOT_USERNAME=[email username]
+    export DOTABOT_PASSWORD=[email password]
+    export DOTABOT_HOSTNAME=[email outgoing smtp server]
+    export DOTABOT_DB_SERVER=[mongodb server]
+    export DOTABOT_DB_NAME=[mongodb database name]
 
 ### Clone the Repository
 
