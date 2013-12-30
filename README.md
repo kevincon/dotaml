@@ -9,7 +9,7 @@ Our final report, which includes a full analysis of our project and our results,
 
 ## Blog Post
 
-A blog post summarizing our project can be found here: TODO
+A blog post summarizing our project can be found here: [http://kevintechnology.com/post/71621133663/using-machine-learning-to-recommend-heroes-for-dota-2](http://kevintechnology.com/post/71621133663/using-machine-learning-to-recommend-heroes-for-dota-2)
 
 ## Where's the Live Demo?
 
