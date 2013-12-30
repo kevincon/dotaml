@@ -48,7 +48,7 @@ You may find it helpful to add these commands to your bash profile in your home 
 
 ### Clone the Repository
 
-    git clone git@github.com:kevincon/dotarec.git
+    git clone git@github.com:kevincon/dotaml.git
 
 ### Initialize VirtualEnv
 
@@ -66,7 +66,7 @@ You should now see "(venv)" as part of your terminal prompt, indicating you are 
 
 ### Installing required packages
 
-Now that you're in VirtualEnv, run the following command to automatically install all of the Python modules that DotaRec requires:
+Now that you're in VirtualEnv, run the following command to automatically install all of the Python modules that are required:
 
     pip install -r requirements.txt
     
@@ -88,4 +88,28 @@ This (by default) uses the k-nearest neighbors algorithm to perform a hard-coded
 
 ## Contributions and Feedback
 
-Feel free to submit a pull request if you are interested in continuing development on DotaRec. Sadly, we will probably not develop the project further for the foreseeable future. You can also contact us via email using the addresses in the final report (see above).
+Feel free to submit a pull request if you are interested in continuing development. Sadly, we will probably not develop the project further for the foreseeable future. You can also contact us via email using the addresses in the final report (see above).
+
+### License
+```
+The MIT License (MIT)
+
+Copyright (c) 2013 Kevin Conley
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
