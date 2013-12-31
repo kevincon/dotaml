@@ -1,9 +1,10 @@
 import numpy as np
-import pickle
+import pickle, os
 
 NUM_HEROES = 108
 NUM_FEATURES = NUM_HEROES * 2
 NUM_IN_QUERY = 0
+# Lower this value to speed up recommendation engine
 TRAINING_SET_SIZE = 10000
 
 def my_distance(vec1,vec2):
@@ -18,16 +19,19 @@ def poly_weights_recommend(distances):
 
 def poly_weights_evaluate(distances):
     '''Returns a list of weights for the provided list of distances.'''
-    distances[0] = np.power(np.multiply(distances[0], NUM_IN_QUERY), 15)
+    distances[0] = np.power(np.multiply(distances[0], NUM_IN_QUERY), 4)
     return distances
     # weights = np.power(np.multiply(distances[0], 0.1), 15)
     # return np.array([weights])
 
 class D2KNearestNeighbors:
-    def __init__(self):
-        with open('k_nearest_neighbors/recommend_models_%d.pkl' % TRAINING_SET_SIZE, 'r') as input_file:
+    def __init__(self, model_root='k_nearest_neighbors'):
+        recommend_path = os.path.join(model_root, 'recommend_models_%d.pkl' % TRAINING_SET_SIZE)
+        evaluate_path = os.path.join(model_root, 'evaluate_model_%d.pkl' % TRAINING_SET_SIZE)
+
+        with open(recommend_path, 'r') as input_file:
             self.recommend_models = pickle.load(input_file)
-        with open('k_nearest_neighbors/evaluate_model_%d.pkl' % TRAINING_SET_SIZE, 'r') as input_file:
+        with open(evaluate_path, 'r') as input_file:
             self.evaluate_model = pickle.load(input_file)
 
     def transform(self, my_team, their_team):

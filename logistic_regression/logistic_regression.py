@@ -1,12 +1,13 @@
 import numpy as np
-import pickle
+import pickle, os
 
 NUM_HEROES = 108
 NUM_FEATURES = NUM_HEROES * 2
 
 class D2LogisticRegression:
-    def __init__(self):
-        with open('logistic_regression/model.pkl', 'r') as input_file:
+    def __init__(self, model_root='logistic_regression'):
+        model_path = os.path.join(model_root, 'model.pkl')
+        with open(model_path, 'r') as input_file:
             self.model = pickle.load(input_file)
 
     def transform(self, my_team, their_team):
