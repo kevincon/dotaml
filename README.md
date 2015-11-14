@@ -27,13 +27,13 @@ We use [VirtualEnv](http://www.virtualenv.org/en/latest/) to help facilitate get
 
 #### GFortran
 
-[GFortran](http://gcc.gnu.org/wiki/GFortranBinaries) is required to install scipy. If you're running Mac OSX, we recommend using [Homebrew](http://brew.sh/) to install GFortran:
+[GFortran](http://gcc.gnu.org/wiki/GFortranBinaries) is required to install scipy. If you're running Mac OSX, we recommend using [Homebrew](http://brew.sh/) to install GFortran via its gcc formula:
 
-    brew install gfortran
+    brew install gcc
 
 #### MongoDB, Database Backup, and Environment Variables (optional for just running recommendation engine)
 
-The data on Dota 2 matches we collected was stored in a MongoDB database. To extract the data to train new models, you must first [install MongoDB](http://docs.mongodb.org/manual/installation/). Then, [download the backup of our database](https://www.dropbox.com/s/jgflbwyicd56av7/dotabot_db.zip) and [restore it using this tutorial](http://docs.mongodb.org/manual/tutorial/backup-databases-with-binary-database-dumps/).
+The data on Dota 2 matches we collected was stored in a MongoDB database. To extract the data to train new models, you must first [install MongoDB](http://docs.mongodb.org/manual/installation/). Then, [download the backup of our database](https://www.dropbox.com/s/jgflbwyicd56av7/dotabot_db.zip) and [restore it using this tutorial](https://docs.mongodb.org/manual/tutorial/backup-and-restore-tools/).
 
 Also, our data collection script, [dotabot2](data_collection/dotabot2.py), uses a few environment variables for configuration so that these sensitive variables are not stored in the public repository. Therefore, you must initialize the following environment variables:
 
@@ -94,7 +94,7 @@ Feel free to submit a pull request if you are interested in continuing developme
 ```
 The MIT License (MIT)
 
-Copyright (c) 2013 Kevin Conley
+Copyright (c) 2015 Kevin Conley
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
