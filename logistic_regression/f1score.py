@@ -6,7 +6,7 @@ POSITIVE_LABEL = 1
 NEGATIVE_LABEL = 0
 
 def make_prediction(algo, query):
-    prob = algo.score(query)
+    prob = algo.score(query.reshape(1, -1))
     return POSITIVE_LABEL if prob > 0.5 else NEGATIVE_LABEL
 
 algo = D2LogisticRegression(model_root='.')
@@ -20,12 +20,12 @@ Y_pred = np.zeros(num_matches)
 for i, match in enumerate(X):
     Y_pred[i] = make_prediction(algo, match)
 
-prec, recall, f1, support = precision_recall_fscore_support(Y_true, Y_pred, average='macro')
+prec, recall, f1, support = precision_recall_fscore_support(Y_true, Y_pred, average='binary')
 
-print 'Precision: ',prec
-print 'Recall: ',recall
-print 'F1 Score: ',f1
-print 'Support: ',support
+print('Precision: ',prec)
+print('Recall: ',recall)
+print('F1 Score: ',f1)
+print('Support: ',support)
 
 # Precision:  0.781616907078
 # Recall:  0.68468997943

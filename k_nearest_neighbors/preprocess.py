@@ -49,7 +49,7 @@ for i, record in enumerate(matches.find()):
 
 pbar.finish()
 
-print "Permuting, generating train and test sets."
+print("Permuting, generating train and test sets.")
 indices = np.random.permutation(NUM_MATCHES)
 test_indices = indices[0:NUM_MATCHES/10]
 train_indices = indices[NUM_MATCHES/10:NUM_MATCHES]
@@ -60,7 +60,7 @@ Y_test = Y[test_indices]
 X_train = X[train_indices]
 Y_train = Y[train_indices]
 
-print "Saving output file now..."
+print("Saving output file now...")
 np.savez_compressed('test_%d.npz' % len(test_indices), X=X_test, Y=Y_test)
 np.savez_compressed('train_%d.npz' % len(train_indices), X=X_train, Y=Y_train)
 

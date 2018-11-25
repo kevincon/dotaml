@@ -25,7 +25,7 @@ def poly_weights_evaluate(distances):
     return np.array([weights])
 
 def test():
-    with open('evaluate_model_51022.pkl', 'r') as input_file:
+    with open('evaluate_model_51022.pkl', 'rb') as input_file:
             model = pickle.load(input_file)
 
     widgets = [FormatLabel('Processed: %(value)d/%(max)d matches. '), ETA(), Percentage(), ' ', Bar()]
@@ -33,11 +33,16 @@ def test():
 
     correct_predictions = 0
     Y_pred = np.zeros(NUM_MATCHES)
-    for i, radiant_query in enumerate(X):
+    for i, radiant_features in enumerate(X):
         pbar.update(i)
-        dire_query = np.concatenate((radiant_query[NUM_HEROES:NUM_FEATURES], radiant_query[0:NUM_HEROES]))
+
+        radiant_query = radiant_features.reshape(1, -1)
         rad_prob = model.predict_proba(radiant_query)[0][1]
+
+        dire_features = np.concatenate((radiant_features[NUM_HEROES:NUM_FEATURES], radiant_features[0:NUM_HEROES]))
+        dire_query = dire_features.reshape(1, -1)
         dire_prob = model.predict_proba(dire_query)[0][0]
+
         overall_prob = (rad_prob + dire_prob) / 2
         prediction = 1 if (overall_prob > 0.5) else -1
         Y_pred[i] = 1 if prediction == 1 else 0
@@ -49,18 +54,18 @@ def test():
     pbar.finish()
 
     accuracy = float(correct_predictions) / NUM_MATCHES
-    print 'Accuracy of KNN model: %f' % accuracy
+    print('Accuracy of KNN model: {accuracy}')
 
     # flip all -1 true labels to 0 for f1 scoring
     for i, match in enumerate(Y):
         if match == -1:
             Y[i] = 0
 
-    prec, recall, f1, support = precision_recall_fscore_support(Y, Y_pred, average='macro')
-    print 'Precision: ',prec
-    print 'Recall: ',recall
-    print 'F1 Score: ',f1
-    print 'Support: ',support
+    prec, recall, f1, support = precision_recall_fscore_support(Y, Y_pred, average='binary')
+    print('Precision: ',prec)
+    print('Recall: ',recall)
+    print('F1 Score: ',f1)
+    print('Support: ',support)
 
     # Accuracy of KNN model: 0.678074
     # Precision:  0.764119601329

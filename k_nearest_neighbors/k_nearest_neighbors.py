@@ -29,9 +29,9 @@ class D2KNearestNeighbors:
         recommend_path = os.path.join(model_root, 'recommend_models_%d.pkl' % TRAINING_SET_SIZE)
         evaluate_path = os.path.join(model_root, 'evaluate_model_%d.pkl' % TRAINING_SET_SIZE)
 
-        with open(recommend_path, 'r') as input_file:
+        with open(recommend_path, 'rb') as input_file:
             self.recommend_models = pickle.load(input_file)
-        with open(evaluate_path, 'r') as input_file:
+        with open(evaluate_path, 'rb') as input_file:
             self.evaluate_model = pickle.load(input_file)
 
     def transform(self, my_team, their_team):
@@ -40,7 +40,7 @@ class D2KNearestNeighbors:
             X[hero_id - 1] = 1
         for hero_id in their_team:
             X[hero_id - 1 + NUM_HEROES] = 1
-        return X
+        return X.reshape(1, -1)
 
     def recommend(self, my_team, their_team, hero_candidates):
         '''Returns a list of (hero, probablility of winning with hero added) recommended to complete my_team.'''
@@ -62,7 +62,11 @@ class D2KNearestNeighbors:
     def score(self, query):
         '''Score the query using the evaluation model, considering both radiant and dire teams.'''
         radiant_query = query
-        dire_query = np.concatenate((radiant_query[NUM_HEROES:NUM_FEATURES], radiant_query[0:NUM_HEROES]))
+
+        underlying_features = query[0]
+        dire_features = np.concatenate((underlying_features[NUM_HEROES:NUM_FEATURES], underlying_features[0:NUM_HEROES]))
+        dire_query = dire_features.reshape(1, -1)
+
         rad_prob = self.evaluate_model.predict_proba(radiant_query)[0][1]
         dire_prob = self.evaluate_model.predict_proba(dire_query)[0][0]
         return (rad_prob + dire_prob) / 2

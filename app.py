@@ -11,7 +11,7 @@ engine = Engine(D2KNearestNeighbors())
 #engine = Engine(D2LogisticRegression())
 
 def get_api_string(recommendations, prob):
-    recommendations = map(str, recommendations)
+    recommendations = list(map(str, recommendations))
     return json.dumps({'x': recommendations, 'prob_x': prob})
 
 @app.route("/")
@@ -26,13 +26,13 @@ def api():
     if len(my_team) == 1 and my_team[0] == '':
         my_team = []
     else:
-        my_team = map(int, my_team)
+        my_team = list(map(int, my_team))
 
     their_team = request.args['y'].split(',')
     if len(their_team) == 1 and their_team[0] == '':
         their_team = []
     else:
-        their_team = map(int, their_team)
+        their_team = list(map(int, their_team))
 
     prob_recommendation_pairs = engine.recommend(my_team, their_team)
     recommendations = [hero for prob, hero in prob_recommendation_pairs]

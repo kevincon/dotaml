@@ -7,7 +7,7 @@ preprocessed = np.load('train_51022.npz')
 X = preprocessed['X']
 Y = preprocessed['Y']
 
-relevant_indices = range(0, 10000)
+relevant_indices = slice(0, 10000)
 X = X[relevant_indices]
 Y = Y[relevant_indices]
 
@@ -23,10 +23,10 @@ def poly_weights_evaluate(distances):
 NUM_HEROES = 108
 NUM_MATCHES = len(X)
 
-print 'Training evaluation model using data from %d matches...' % NUM_MATCHES
+print(f'Training evaluation model using data from {NUM_MATCHES} matches...')
 
 model = KNeighborsClassifier(n_neighbors=NUM_MATCHES,metric=my_distance,weights=poly_weights_evaluate).fit(X, Y)
 
 # Populate model pickle
-with open('evaluate_model_%d.pkl' % NUM_MATCHES, 'w') as output_file:
+with open('evaluate_model_%d.pkl' % NUM_MATCHES, 'wb') as output_file:
     pickle.dump(model, output_file)
