@@ -12,4 +12,4 @@ before_script:
   - pip install tox tox-travis pipenv
 
 script:
-  - tox --skip-missing-interpreters
+  - tox
