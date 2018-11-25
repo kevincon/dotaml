@@ -5,6 +5,10 @@ matrix:
     - python: "3.6"
     - python: "3.7"
 
+branches:
+  only:
+    - master
+
 before_script:
   - pip install tox pipenv
 
