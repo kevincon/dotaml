@@ -37,3 +37,6 @@ venv
 last_match
 date_max
 log.txt
+
+# PyCharm
+.idea/

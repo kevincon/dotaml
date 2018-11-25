@@ -17,13 +17,13 @@ def main():
     my_team = [76, 54]
     their_team = [5, 15, 46, 91, 13]
 
-    print 'My Team: %s' % [get_hero_human_readable(hero_id) for hero_id in my_team]
-    print 'Their Team: %s' % [get_hero_human_readable(hero_id) for hero_id in their_team]
-    print 'Recommend:'
+    print(f'My Team: {[get_hero_human_readable(hero_id) for hero_id in my_team]}')
+    print(f'Their Team: {[get_hero_human_readable(hero_id) for hero_id in their_team]}')
+    print('Recommend:')
     #engine = Engine(D2KNearestNeighbors())
     engine = Engine(D2LogisticRegression())
     recommendations = engine.recommend(my_team, their_team)
-    print [(prob, get_hero_human_readable(hero)) for prob, hero in recommendations]
+    print([(prob, get_hero_human_readable(hero)) for prob, hero in recommendations])
 
 class Engine:
     def __init__(self, algorithm):

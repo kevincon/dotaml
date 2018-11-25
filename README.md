@@ -21,15 +21,9 @@ Everything has been tested to work on Mac OSX 10.8. To download our project and 
 
 ### Dependencies
 
-#### VirtualEnv
+#### pipenv
 
-We use [VirtualEnv](http://www.virtualenv.org/en/latest/) to help facilitate getting setup on a new machine. There are [a number of ways of installing it](http://www.virtualenv.org/en/latest/virtualenv.html#installation), depending on your operating system.
-
-#### GFortran
-
-[GFortran](http://gcc.gnu.org/wiki/GFortranBinaries) is required to install scipy. If you're running Mac OSX, we recommend using [Homebrew](http://brew.sh/) to install GFortran via its gcc formula:
-
-    brew install gcc
+We use [pipenv](https://pipenv.readthedocs.io/en/latest/) to help facilitate getting setup on a new machine. There are [a number of ways of installing it](https://pipenv.readthedocs.io/en/latest/#install-pipenv-today), depending on your operating system.
 
 #### MongoDB, Database Backup, and Environment Variables (optional for just running recommendation engine)
 
@@ -50,26 +44,18 @@ You may find it helpful to add these commands to your bash profile in your home 
 
     git clone git@github.com:kevincon/dotaml.git
 
-### Initialize VirtualEnv
+### Initialize pipenv
 
-From inside the repository root folder, initialize VirtualEnv by running:
+From inside the repository root folder, initialize pipenv by running:
 
-    virtualenv venv
+    pipenv install
 
-This creates a new folder in the directory called "venv." You only need to do this once. Don't worry about ever accidentally adding this folder to the repository. There's an entry for it in the .gitignore file.
+Next, activate the pipenv by running:
 
-Next, activate the VirtualEnv by running:
+    pipenv shell
 
-    source venv/bin/activate
+You should now see "(dotaml)" as part of your terminal prompt, indicating you are now inside your virtual environment. Note that closing the terminal window deactivates the virtual environment, so you must run `pipenv show` each time you open a new terminal window for development.
 
-You should now see "(venv)" as part of your terminal prompt, indicating you are now inside your VirtualEnv. Note that closing the terminal window deactivates VirtualEnv, so you must run ```source venv/bin/activate``` each time you open a new terminal window for development.
-
-### Installing required packages
-
-Now that you're in VirtualEnv, run the following command to automatically install all of the Python modules that are required:
-
-    pip install -r requirements.txt
-    
 ### Running the web app
 
 From the root folder of the project, run:
@@ -94,7 +80,7 @@ Feel free to submit a pull request if you are interested in continuing developme
 ```
 The MIT License (MIT)
 
-Copyright (c) 2015 Kevin Conley
+Copyright (c) 2015-2018 Kevin Conley
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in

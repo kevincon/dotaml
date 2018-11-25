@@ -133,7 +133,7 @@ if __name__ == '__main__':
             saved_id = int(f.readline())
             ans = False
             try:
-                ans = raw_input('Start at last_match %d? ' % saved_id)
+                ans = input(f'Start at last_match {saved_id}?')
                 if ans in ['yes', 'y', 'Y', 'YES', 'Yes']:
                     ans = True
             except KeyboardInterrupt:
@@ -144,12 +144,12 @@ if __name__ == '__main__':
                         date_max = int(d.readline())
                     match_id = saved_id
                 except IOError:
-                    print 'Could not open date_max file, ignoring last_match value.'
+                    print('Could not open date_max file, ignoring last_match value.')
 
     except IOError:
        pass 
 
-    print 'OK, starting at match_id=%s' % match_id
+    print(f'OK, starting at match_id={match_id}')
 
     setup()
     main(match_id)

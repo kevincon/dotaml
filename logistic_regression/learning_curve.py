@@ -6,11 +6,15 @@ import pylab
 NUM_HEROES = 108
 NUM_FEATURES = NUM_HEROES * 2
 
-def score(model, radiant_query):
+def score(model, radiant_features):
     '''Return the probability of the query being in the positive class.'''
-    dire_query = np.concatenate((radiant_query[NUM_HEROES:NUM_FEATURES], radiant_query[0:NUM_HEROES]))
+    radiant_query = radiant_features.reshape(1, -1)
     rad_prob = model.predict_proba(radiant_query)[0][1]
+
+    dire_features = np.concatenate((radiant_features[NUM_HEROES:NUM_FEATURES], radiant_features[0:NUM_HEROES]))
+    dire_query = dire_features.reshape(1, -1)
     dire_prob = model.predict_proba(dire_query)[0][0]
+
     return (rad_prob + dire_prob) / 2
 
 def evaluate(model, X, Y, positive_class, negative_class):
@@ -35,7 +39,7 @@ def plot_learning_curve(num_points, X_train, Y_train, X_test, Y_test, positive_c
         model = train(X_train, Y_train, training_set_size)
         accuracy = evaluate(model, X_test, Y_test, positive_class, negative_class)
         accuracies.append(accuracy)
-        print 'Accuracy for %d training examples: %f' % (training_set_size, accuracy)
+        print(f'Accuracy for {training_set_size} training examples: {accuracy}')
 
     plt.plot(np.array(training_set_sizes), np.array(accuracies))
     plt.ylabel('Accuracy')
@@ -47,7 +51,7 @@ def plot_learning_curves(num_points, X_train, Y_train, X_test, Y_test, positive_
     total_num_matches = len(X_train)
     training_set_sizes = []
     for div in list(reversed(range(1, num_points + 1))):
-        training_set_sizes.append(total_num_matches / div)
+        training_set_sizes.append(total_num_matches // div)
 
     test_errors = []
     training_errors = []
@@ -75,7 +79,6 @@ def main():
     X_test = testing_data['X']
     Y_test = testing_data['Y']
 
-    #plot_learning_curve(30, X_train, Y_train, X_test, Y_test)
     plot_learning_curves(100, X_train, Y_train, X_test, Y_test)
 
 if __name__ == '__main__':

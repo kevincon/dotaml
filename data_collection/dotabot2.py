@@ -9,7 +9,7 @@ client = MongoClient(os.getenv('DOTABOT_DB_SERVER', 'localhost'), 27017)
 db = client[os.getenv('DOTABOT_DB_NAME', 'dotabot')]
 match_collection = db.matches
 
-logging.basicConfig(filename='/home/kcon/dota2project/log.txt')
+logging.basicConfig(filename='log.txt')
 logger = logging.getLogger('dotabot')
 
 def setup():

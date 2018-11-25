@@ -7,7 +7,7 @@ preprocessed = np.load('train_51022.npz')
 X = preprocessed['X']
 Y = preprocessed['Y']
 
-relevant_indices = range(0, 10000)
+relevant_indices = slice(0, 10000)
 X = X[relevant_indices]
 Y = Y[relevant_indices]
 
@@ -23,7 +23,7 @@ def poly_weights_recommend(distances):
 NUM_HEROES = 108
 NUM_MATCHES = len(X)
 
-print 'Training recommendation models using data from %d matches...' % NUM_MATCHES
+print(f'Training recommendation models using data from {NUM_MATCHES} matches...')
 
 models = []
 
@@ -42,8 +42,8 @@ for hero_id in range(1, 109):
     Y_filtered = np.array(Y_filtered)
     try:
         models.append(KNeighborsClassifier(n_neighbors=len(X_filtered),metric=my_distance,weights=poly_weights_recommend).fit(X_filtered, Y_filtered))
-    except Exception,e:
-        print "Radiant fit error!!! %s" % e
+    except Exception as e:
+        print(f"Radiant fit error!!! {e}")
 
 # Dire Loop
 for hero_id in range(1, 109):
@@ -60,9 +60,9 @@ for hero_id in range(1, 109):
     Y_filtered = np.array(Y_filtered)
     try:
         models.append(KNeighborsClassifier(n_neighbors=len(X_filtered),metric=my_distance,weights=poly_weights_recommend).fit(X_filtered, Y_filtered))
-    except Exception,e:
-        print "Dire fit error!!! %s" % e
+    except Exception as e:
+        print(f"Dire fit error!!! {e}")
 
 # Populate model pickle
-with open('recommend_models_%d.pkl' % NUM_MATCHES, 'w') as output_file:
+with open('recommend_models_%d.pkl' % NUM_MATCHES, 'wb') as output_file:
     pickle.dump(models, output_file)

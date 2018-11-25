@@ -1,6 +1,6 @@
 import smtplib, os
 from email.mime.text import MIMEText
-from email.Utils import formatdate
+from email.utils import formatdate
 from datetime import datetime
 from dota2py import data
 
@@ -9,7 +9,7 @@ def print_match_history(gmh_result):
     for match in gmh_result['matches']:
         match_id = match['match_id']
         start_time = datetime.fromtimestamp(int(match['start_time']))
-        print 'Match %d - %s' % (match_id, start_time)
+        print(f'Match {match_id} - {start_time}')
 
 def get_game_mode_string(game_mode_id):
     '''Return a human-readable string for a game_mode id.'''
@@ -20,8 +20,12 @@ def get_game_mode_string(game_mode_id):
 
 def send_email(body,
                subject='Quick Message From DOTA2 Python Script',
-               recipients=['kcon@stanford.edu', 'djperry@stanford.edu']):
+               recipients=None):
     '''Send an email.'''
+
+    if not recipients:
+        recipients = ['kcon@stanford.edu', 'djperry@stanford.edu']
+
     # Credentials
     username = os.getenv('DOTABOT_USERNAME')
     hostname = os.getenv('DOTABOT_HOSTNAME')
