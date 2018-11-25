@@ -54,24 +54,22 @@ def test():
     pbar.finish()
 
     accuracy = float(correct_predictions) / NUM_MATCHES
-    print('Accuracy of KNN model: {accuracy}')
+    print(f'Accuracy of KNN model: {accuracy}')
 
     # flip all -1 true labels to 0 for f1 scoring
     for i, match in enumerate(Y):
         if match == -1:
             Y[i] = 0
 
-    prec, recall, f1, support = precision_recall_fscore_support(Y, Y_pred, average='binary')
+    prec, recall, f1, _ = precision_recall_fscore_support(Y, Y_pred, average='binary')
     print('Precision: ',prec)
     print('Recall: ',recall)
     print('F1 Score: ',f1)
-    print('Support: ',support)
 
     # Accuracy of KNN model: 0.678074
     # Precision:  0.764119601329
     # Recall:  0.673499267936
     # F1 Score:  0.715953307393
-    # Support:  3415
 
 if __name__ == '__main__':
     test()
