@@ -1,16 +1,15 @@
 language: python
 dist: xenial
-matrix:
-  include:
-    - python: "3.6"
-    - python: "3.7"
+python:
+  - "3.6"
+  - "3.7"
 
 branches:
   only:
     - master
 
 before_script:
-  - pip install tox pipenv
+  - pip install tox tox-travis pipenv
 
 script:
   - tox --skip-missing-interpreters
